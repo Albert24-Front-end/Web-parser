@@ -15,7 +15,7 @@ for elem in items:
     title = elem.find(class_='playlist-inner-card__link-text').text
     relative_url = elem.find(class_='playlist-inner-card__link').attrs['href']
     abs_url = f'https://live.skillbox.ru{relative_url}'
-    duration = elem.find(class_='playlist-inner-card__small-info').text
+    duration = elem.find(class_='playlist-inner-card__small-info').text.strip().split(',')[-1].strip()
     row = [title, abs_url, duration]
     print(row)
     worksheet.append(row)
