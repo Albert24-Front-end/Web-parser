@@ -24,3 +24,7 @@ venv/
 # Временные файлы
 *.log
 *.tmp
+
+# Файлы excel
+temp_excel/
+*.xlsx

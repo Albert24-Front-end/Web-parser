@@ -1,6 +1,13 @@
+import os
+from datetime import datetime
 from openpyxl import Workbook
 import requests
 from bs4 import BeautifulSoup
+
+# Создаем папку для временных файлов
+TEMP_DIR = 'temp_excel'
+if not os.path.exists(TEMP_DIR):
+    os.makedirs(TEMP_DIR)
 
 workbook = Workbook()
 worksheet = workbook.active
@@ -20,7 +27,16 @@ for elem in items:
     print(row)
     worksheet.append(row)
 
-workbook.save('Free Skillbox webinars on Python.xlsx')
+date_str = datetime.now().strftime('%Y-%m-%d')
+version = 1
+
+while True:
+    filename = os.path.join(TEMP_DIR, f'Free Skillbox webinars on Python {date_str} v{version}.xlsx')
+    if not os.path.exists(filename):
+        break
+    version += 1
+
+workbook.save(filename)
 
 # abs_url = 'https://live.skillbox.ru' + relative_url
 
