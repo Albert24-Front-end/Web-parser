@@ -21,6 +21,9 @@ worksheet.append(headers)
 for cell in worksheet[1]:
     cell.font = Font(bold=True, size=12)
     cell.alignment = Alignment(horizontal='center', vertical='center')
+worksheet.column_dimensions['A'].width = 77
+worksheet.column_dimensions['B'].width = 110
+worksheet.column_dimensions['C'].width = 14
 
 # Парсинг
 webpage = requests.get('https://live.skillbox.ru/playlists/code/python/')
