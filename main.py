@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 from openpyxl import Workbook
+from openpyxl.styles import Font, Alignment
 import requests
 from bs4 import BeautifulSoup
 
@@ -9,9 +10,19 @@ TEMP_DIR = 'temp_excel'
 if not os.path.exists(TEMP_DIR):
     os.makedirs(TEMP_DIR)
 
+# Создание нового excel файла
 workbook = Workbook()
-worksheet = workbook.active
+worksheet = workbook.active # Первый лист
+# worksheet.title = 'Мои данные'  # Переименовать лист
 
+# Жирные заголовки
+headers = ['Название', 'Ссылка', 'Длительность']
+worksheet.append(headers)
+for cell in worksheet[1]:
+    cell.font = Font(bold=True, size=12)
+    cell.alignment = Alignment(horizontal='center', vertical='center')
+
+# Парсинг
 webpage = requests.get('https://live.skillbox.ru/playlists/code/python/')
 
 soup = BeautifulSoup(webpage.text, 'html.parser')
@@ -27,6 +38,7 @@ for elem in items:
     print(row)
     worksheet.append(row)
 
+# Сохраняем название файла с датой и версией
 date_str = datetime.now().strftime('%Y-%m-%d')
 version = 1
 
@@ -36,6 +48,7 @@ while True:
         break
     version += 1
 
+# Сохраняем excel файл
 workbook.save(filename)
 
 # abs_url = 'https://live.skillbox.ru' + relative_url
